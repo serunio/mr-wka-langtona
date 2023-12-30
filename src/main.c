@@ -34,25 +34,7 @@ int main(int argc, char** argv)
             step(plansza, &m, x, y);
         if(k%s == 0)
         {
-            for(int i = 0; i <= y; i++)
-            {
-                for (int j = 0; j <= x; j++)
-                {
-                    int kolor = plansza[i][j].kolor;
-                    switch(kolor)
-                    {
-                        case BIALY:
-                            tigrFillRect(screen, j-1, i-1, 3, 3, bialy);
-                            break;
-                        case CZARNY:
-                            tigrFillRect(screen, j-1, i-1, 3, 3, czarny);
-                            break;
-                    }
-
-                }
-
-            }
-            tigrUpdate(screen);
+            druk(plansza, x, y, screen);
         }
 
         k++;

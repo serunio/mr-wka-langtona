@@ -30,7 +30,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
     {
         case DEAFULT:
         case BIALY:
-            zmiana(m, CZARNY, PRAWO);
+            zmiana(m, CZERWONY, PRAWO);
             break;
         case CZERWONY:
             zmiana(m, ZIELONY, PRAWO);
@@ -42,7 +42,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
             zmiana(m, CZARNY, PRAWO);
             break;
         case CZARNY:
-            zmiana(m, BIALY, LEWO);
+            zmiana(m, BIALY, PRAWO);
             break;
     }
 
@@ -93,60 +93,38 @@ void zmiana(mrowka* m, int kolor, int kierunek)
     m->orientacja = obrot(m->orientacja, kierunek);
 }
 
-void druk0(komorka** p, int x, int y)
+
+void druk(komorka** p, int x, int y, Tigr* screen)
 {
+    TPixel kolor;
+
     for(int i = 0; i <= y; i++)
     {
         for (int j = 0; j <= x; j++)
         {
-            int kolor = p[i][j].kolor;
-            switch(kolor)
+            switch(p[i][j].kolor)
             {
                 case BIALY:
-                    printf("\033[107m \033[0m");
+                    kolor = tigrRGB(255, 255, 255);
                     break;
                 case CZARNY:
-                    printf("\033[40m \033[0m");
-                    break;
-                case ZIELONY:
-                    printf("\033[102m \033[0m");
-                    break;
-                case NIEBIESKI:
-                    printf("\033[104m \033[0m");
+                    kolor = tigrRGB(0, 0, 0);
                     break;
                 case CZERWONY:
-                    printf("\033[101m \033[0m");
+                    kolor = tigrRGB(255, 0, 0);
+                    break;
+                case ZIELONY:
+                    kolor = tigrRGB(0, 255, 0);
+                    break;
+                case NIEBIESKI:
+                    kolor = tigrRGB(0, 0, 255);
                     break;
                 default:
-                    printf(" ");
-                    break;
+                    kolor = tigrRGB(148, 148, 148);
             }
-        }
-        printf("\n");
-    }
-}
-
-void druk(komorka** p, int x, int y, Tigr** screen)
-{
-    TPixel tlo = tigrRGB(148, 148, 148);
-    TPixel bialy = tigrRGB(255, 255, 255);
-    TPixel czarny = tigrRGB(0, 0, 0);
-
-    for(int i = 0; i <= y; i++)
-    {
-        for (int j = 0; j <= x; j++)
-        {
-            int kolor = p[i][j].kolor;
-            switch(kolor)
-            {
-                case BIALY:
-                    tigrFillRect(*screen, i*5, j*5, 5, 5, bialy);
-                    break;
-                case CZARNY:
-                    tigrFillRect(*screen, i*5, j*5, 5, 5, czarny);
-                    break;
-            }
+            tigrFillRect(screen, j-1, i-1, 3, 3, kolor);
         }
 
     }
+    tigrUpdate(screen);
 }

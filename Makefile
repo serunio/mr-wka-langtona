@@ -1,14 +1,7 @@
-CFLAGS += -I../.. -Os
-ifeq ($(OS),Windows_NT)
-	LDFLAGS += -s -lopengl32 -lgdi32
-else
-	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Darwin)
-		LDFLAGS += -framework OpenGL -framework Cocoa
-	else ifeq ($(UNAME_S),Linux)
-		LDFLAGS += -s -lGLU -lGL -lX11
-	endif
-endif
+CFLAGS += -I../.. -Os -s
+WINFLAGS += -lopengl32 -lgdi32
+LINFLAGS += -lGLU -lGL -lX11
 
-mrowka : main.c plansza.c tigr.c
-	gcc $^ -o $@.exe $(CFLAGS) $(LDFLAGS) -ggdb
+mrowka : src/main.c src/plansza.c tigr/tigr.c
+	x86_64-w64-mingw32-g++ $^ -o exe/$@-win.exe $(CFLAGS) $(WINFLAGS)
+	gcc $^ -o exe/$@ $(CFLAGS) $(LINFLAGS)
