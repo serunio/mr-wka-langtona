@@ -3,7 +3,6 @@
 //
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "plansza.h"
 #include "../tigr/tigr.h"
@@ -97,7 +96,6 @@ void zmiana(mrowka* m, int kolor, int kierunek)
 void druk(komorka** p, int x, int y, Tigr* screen)
 {
     TPixel kolor;
-
     for(int i = 0; i <= y; i++)
     {
         for (int j = 0; j <= x; j++)
@@ -124,7 +122,6 @@ void druk(komorka** p, int x, int y, Tigr* screen)
             }
             tigrFillRect(screen, j-1, i-1, 3, 3, kolor);
         }
-
     }
     tigrUpdate(screen);
 }

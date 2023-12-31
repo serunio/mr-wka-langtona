@@ -5,9 +5,6 @@
 #include "../tigr/tigr.h"
 
 #include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-#include <stdio.h>
 
 int main(int argc, char** argv)
 {
@@ -24,10 +21,8 @@ int main(int argc, char** argv)
 
     Tigr* screen = tigrWindow(x, y, "Mrowka", 0);
     TPixel tlo = tigrRGB(148, 148, 148);
-    TPixel bialy = tigrRGB(255, 255, 255);
-    TPixel czarny = tigrRGB(0, 0, 0);
-    int k = 0;
     tigrClear(screen, tlo);
+    int k = 0;
     while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE))
     {
         if(k<=t)
@@ -36,10 +31,8 @@ int main(int argc, char** argv)
         {
             druk(plansza, x, y, screen);
         }
-
         k++;
     }
     tigrFree(screen);
-
     return 0;
 }

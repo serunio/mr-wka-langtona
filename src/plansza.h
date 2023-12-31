@@ -37,7 +37,5 @@ int* obrot(int* orientacja, int kieunek);
 
 void zmiana(mrowka* m, int kolor, int kierunek);
 
-void druk0(komorka**, int, int);
-
 void druk(komorka**, int, int, Tigr*);
 #endif //MROWKA_LANGTONA_PLANSZA_H
