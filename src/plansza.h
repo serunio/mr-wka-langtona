@@ -29,7 +29,7 @@ typedef struct
     int* orientacja;
 }mrowka;
 
-komorka** tworz(int x, int y);
+komorka** tworz(int x, int y, int procent);
 
 void step(komorka**, mrowka*, int, int);
 

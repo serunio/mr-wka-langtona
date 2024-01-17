@@ -4,23 +4,36 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>-+
 
 #include "plansza.h"
 
 
-komorka** tworz(int x, int y)
+komorka** tworz(int x, int y, int p)
 {
-    komorka** grid = (komorka**)malloc((y+1)*sizeof(komorka*));
-    for(int i = 0; i <= y; i++)
-        grid[i] = (komorka*)malloc((x+1)*sizeof(komorka));
+    komorka** grid = (komorka**)malloc((y)*sizeof(komorka*));
+    for(int i = 0; i < y; i++)
+        grid[i] = (komorka*)malloc((x)*sizeof(komorka));
 
-    for(int i = 0; i <= y; i++)
-        for(int j = 0; j <= x; j++)
+    for(int i = 0; i < y; i++)
+        for(int j = 0; j < x; j++)
         {
             grid[i][j].kolor = BIALY;
             grid[i][j].x = j;
             grid[i][j].y = i;
         }
+    int black = x*y*p/100;
+    int b = 0;
+    komorka* k;
+    srand(time(NULL));
+    while(b<black)
+    {
+        if((k = &grid[rand()%y][rand()%x])->kolor == BIALY)
+        {
+            k->kolor = CZARNY;
+            b++;
+        }
+    }
     return grid;
 }
 
@@ -46,7 +59,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
             break;
     }
 
-    if(m->lokacja->y + m->orientacja[0] > y)
+    if(m->lokacja->y + m->orientacja[0] == y)
     {
         m->lokacja = &grid[0][m->lokacja->x];
     }
@@ -56,7 +69,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
         m->lokacja = &grid[y][m->lokacja->x];
     }
     else
-    if(m->lokacja->x + m->orientacja[1] > x)
+    if(m->lokacja->x + m->orientacja[1] == x)
     {
         m->lokacja = &grid[m->lokacja->y][0];
     }
@@ -96,9 +109,9 @@ void zmiana(mrowka* m, int kolor, int kierunek)
 
 void druk(komorka** p, int x, int y, mrowka m, FILE* f)
 {
-    for(int i = 0; i <= y; i++)
+    for(int i = 0; i < y; i++)
     {
-        for (int j = 0; j <= x; j++)
+        for (int j = 0; j < x; j++)
         {
             switch(p[i][j].kolor)
             {

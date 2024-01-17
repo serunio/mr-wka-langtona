@@ -11,12 +11,12 @@
 
 int main(int argc, char** argv)
 {
-    int x, y, t;
+    int x = 50, y = 50, t = 100, p = 0;
     char* name;
-    char a;
+    int* kierunek = (int*)calloc(2, sizeof(int));
     int fflag=0;
     int option;
-    while((option = getopt(argc, argv, ":m:n:i:f:"))!=-1)
+    while((option = getopt(argc, argv, ":m:n:i:f:k:p:"))!=-1)
     {
         switch(option)
         {
@@ -33,6 +33,27 @@ int main(int argc, char** argv)
                 name = optarg;
                 fflag++;
                 break;
+            case 'k':
+                if(!strcmp(optarg, "gora"))
+                    kierunek[0] = -1;
+                else if(!strcmp(optarg, "dol"))
+                    kierunek[0] = 1;
+                else if(!strcmp(optarg, "lewo"))
+                    kierunek[1] = -1;
+                else if(!strcmp(optarg, "prawo"))
+                    kierunek[1] = 1;
+                else
+                {printf("Podano zly kierunek\n"); return 1;}
+                break;
+            case 'p':
+                p = atoi(optarg);
+                if(p >= 0 && p <= 100)
+                    break;
+                else
+                {
+                    printf("Podano zla wartosc dla %c (prawidlowe: 0-100)\n", optopt);
+                    return 1;
+                }
             case '?':
                 printf("Nieznany argument: -%c\n", optopt);
                 break;
@@ -44,11 +65,9 @@ int main(int argc, char** argv)
         }
     }
 
-    komorka** plansza = tworz(x, y);
+    komorka** plansza = tworz(x, y, p);
     mrowka m;
-    m.orientacja = (int*)malloc(2*sizeof(int));
-    m.orientacja[0] = -1;
-    m.orientacja[1] = 0;
+    m.orientacja = kierunek;
     m.lokacja = &plansza[y/2][x/2];
 
     char* filename = malloc(20*sizeof(char));
