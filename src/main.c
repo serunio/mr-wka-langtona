@@ -2,16 +2,49 @@
 // Created by jakub on 12/24/23.
 //
 #include "plansza.h"
-#include "../tigr/tigr.h"
+
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <getopt.h>
+#include <string.h>
 
 int main(int argc, char** argv)
 {
-    int x = argc > 1 ? atoi(argv[1]) : 200;
-    int y = argc > 2 ? atoi(argv[2]) : 200;
-    int t = argc > 3 ? atoi(argv[3]) : 100000;
-    int s = argc > 4 ? atoi(argv[4]) : 1;
+    int x, y, t;
+    char* name;
+    char a;
+    int fflag=0;
+    int option;
+    while((option = getopt(argc, argv, "m:n:i:f:"))!=-1)
+    {
+        switch(option)
+        {
+            case 'm':
+                x = atoi(optarg);
+                break;
+            case 'n':
+                y = atoi(optarg);
+                break;
+            case 'i':
+                t = atoi(optarg);
+                break;
+            case 'f':
+                name = optarg;
+                fflag++;
+                break;
+            case '?':
+                printf("Nieznany argument: -%c\n", optopt);
+                break;
+            case ':':
+                printf("Spsob wywolania: ./mrowka -m <wymiar x> -n <wymiar y> -i <ilosc stanow> -f <nazwa pliku wynikowego>\n");
+                return 1;
+                break;
+            default:
+                break;
+        }
+    }
+
     komorka** plansza = tworz(x, y);
     mrowka m;
     m.orientacja = (int*)malloc(2*sizeof(int));
@@ -19,20 +52,29 @@ int main(int argc, char** argv)
     m.orientacja[1] = 0;
     m.lokacja = &plansza[y/2][x/2];
 
-    Tigr* screen = tigrWindow(x, y, "Mrowka", 0);
-    TPixel tlo = tigrRGB(148, 148, 148);
-    tigrClear(screen, tlo);
+    char* filename = malloc(20*sizeof(char));
     int k = 0;
-    while (!tigrClosed(screen) && !tigrKeyDown(screen, TK_ESCAPE))
+    FILE* file;
+    while (k<=t)
     {
-        if(k<=t)
-            step(plansza, &m, x, y);
-        if(k%s == 0)
+        if(fflag)
         {
-            druk(plansza, x, y, screen);
+            sprintf(filename, "../out/%s_%d.txt", name, k);
+            file = fopen(filename, "w");
         }
+        else
+            file = stdout;
+        if(file == NULL)
+        {
+            printf("%d\n", errno);
+            return errno;
+        }
+        druk(plansza, x, y, m, file);
+        if(fflag)
+            fclose(file);
+        step(plansza, &m, x, y);
         k++;
     }
-    tigrFree(screen);
+
     return 0;
 }
