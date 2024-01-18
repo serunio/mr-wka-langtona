@@ -58,7 +58,7 @@ int main(int argc, char** argv)
                 printf("Nieznany argument: -%c\n", optopt);
                 break;
             case ':':
-                printf("Opcje potrzebuja argumentow: -m <wymiar x> | -n <wymiar y> | -i <ilosc stanow> | -f <nazwa pliku wynikowego>\n");
+                printf("Opcje potrzebuja argumentow: \n-m <wymiar x> | -n <wymiar y> | -i <ilosc stanow> | -f <nazwa pliku wynikowego> | -k <kierunek mrowki(gora/dol/prawo/lewo)> | -p <procent poczatkowego zapelnienia planszy\n");
                 return 1;
             default:
                 break;
