@@ -18,6 +18,7 @@ int main(int argc, char** argv)
     char* name;
     int* kierunek = (int*)calloc(2, sizeof(int));
     int fflag=0;
+    int kflag=0;
     int option;
     while((option = getopt(argc, argv, ":m:n:i:f:k:p:"))!=-1)
     {
@@ -37,6 +38,7 @@ int main(int argc, char** argv)
                 fflag++;
                 break;
             case 'k':
+                kflag++;
                 if(!strcmp(optarg, "gora"))
                     kierunek[0] = -1;
                 else if(!strcmp(optarg, "dol"))
@@ -71,6 +73,7 @@ int main(int argc, char** argv)
     komorka** plansza = tworz(x, y, p);
     if(plansza==NULL) return EXIT_FAILURE;
     mrowka m;
+    if(!kflag) kierunek[0] = -1;
     m.orientacja = kierunek;
     m.lokacja = &plansza[y/2][x/2];
 
