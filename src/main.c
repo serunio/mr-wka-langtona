@@ -66,6 +66,7 @@ int main(int argc, char** argv)
     }
 
     komorka** plansza = tworz(x, y, p);
+    if(plansza==NULL) return EXIT_FAILURE;
     mrowka m;
     m.orientacja = kierunek;
     m.lokacja = &plansza[y/2][x/2];
@@ -93,6 +94,9 @@ int main(int argc, char** argv)
         step(plansza, &m, x, y);
         k++;
     }
-
+    for(int i = 0; i < y; i++)
+        free(plansza[i]);
+    free(plansza);
+    free(m.orientacja);
     return 0;
 }

@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>-+
+#include <time.h>
 
 #include "plansza.h"
 
@@ -12,8 +12,13 @@
 komorka** tworz(int x, int y, int p)
 {
     komorka** grid = (komorka**)malloc((y)*sizeof(komorka*));
+    if(grid == NULL) return NULL;
     for(int i = 0; i < y; i++)
+    {
         grid[i] = (komorka*)malloc((x)*sizeof(komorka));
+        if(grid[i] == NULL) return NULL;
+    }
+
 
     for(int i = 0; i < y; i++)
         for(int j = 0; j < x; j++)
@@ -41,17 +46,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
 {
     switch(m->lokacja->kolor)
     {
-        case DEAFULT:
         case BIALY:
-            zmiana(m, CZARNY, PRAWO);
-            break;
-        case CZERWONY:
-            zmiana(m, ZIELONY, PRAWO);
-            break;
-        case ZIELONY:
-            zmiana(m, NIEBIESKI, LEWO);
-            break;
-        case NIEBIESKI:
             zmiana(m, CZARNY, PRAWO);
             break;
         case CZARNY:
@@ -103,7 +98,9 @@ int* obrot(int* orientacja, int kierunek)
 void zmiana(mrowka* m, int kolor, int kierunek)
 {
     m->lokacja->kolor = kolor;
+    int* temp = m->orientacja;
     m->orientacja = obrot(m->orientacja, kierunek);
+    free(temp);
 }
 
 

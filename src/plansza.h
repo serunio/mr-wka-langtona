@@ -5,12 +5,8 @@
 #ifndef MROWKA_LANGTONA_PLANSZA_H
 #define MROWKA_LANGTONA_PLANSZA_H
 
-#define DEAFULT 0
 #define BIALY  1
 #define CZARNY 2
-#define CZERWONY 3
-#define ZIELONY 4
-#define NIEBIESKI 5
 
 #define PRAWO 0
 #define LEWO 1
