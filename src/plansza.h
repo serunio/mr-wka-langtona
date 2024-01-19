@@ -5,17 +5,13 @@
 #ifndef MROWKA_LANGTONA_PLANSZA_H
 #define MROWKA_LANGTONA_PLANSZA_H
 
-#include "../tigr/tigr.h"
-
-#define DEAFULT 0
 #define BIALY  1
 #define CZARNY 2
-#define CZERWONY 3
-#define ZIELONY 4
-#define NIEBIESKI 5
 
 #define PRAWO 0
 #define LEWO 1
+
+#include <stdio.h>
 
 typedef struct
 {
@@ -29,7 +25,7 @@ typedef struct
     int* orientacja;
 }mrowka;
 
-komorka** tworz(int x, int y);
+komorka** tworz(int x, int y, int procent);
 
 void step(komorka**, mrowka*, int, int);
 
@@ -37,5 +33,5 @@ int* obrot(int* orientacja, int kieunek);
 
 void zmiana(mrowka* m, int kolor, int kierunek);
 
-void druk(komorka**, int, int, Tigr*);
+void druk(komorka**, int, int, mrowka, FILE*);
 #endif //MROWKA_LANGTONA_PLANSZA_H
