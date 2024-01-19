@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <wchar.h>
+#include <locale.h>
 
 #include "plansza.h"
 
@@ -42,68 +44,6 @@ komorka** tworz(int x, int y, int p)
     return grid;
 }
 
-void step(komorka** grid, mrowka* m, int x, int y)
-{
-    switch(m->lokacja->kolor)
-    {
-        case BIALY:
-            zmiana(m, CZARNY, PRAWO);
-            break;
-        case CZARNY:
-            zmiana(m, BIALY, LEWO);
-            break;
-    }
-    if(m->orientacja == NULL) return;
-    if(m->lokacja->y + m->orientacja[0] == y)
-    {
-        m->lokacja = &grid[0][m->lokacja->x];
-    }
-    else
-    if(m->lokacja->y + m->orientacja[0] < 0)
-    {
-        m->lokacja = &grid[y][m->lokacja->x];
-    }
-    else
-    if(m->lokacja->x + m->orientacja[1] == x)
-    {
-        m->lokacja = &grid[m->lokacja->y][0];
-    }
-    else
-    if(m->lokacja->x + m->orientacja[1] < 0)
-    {
-        m->lokacja = &grid[m->lokacja->y][x];
-    }
-    else
-        m->lokacja = &grid[m->lokacja->y + m->orientacja[0]][m->lokacja->x + m->orientacja[1]];
-}
-
-int* obrot(int* orientacja, int kierunek)
-{
-    int* nowa = (int*)malloc(2*sizeof(int));
-    if(nowa==NULL) return NULL;
-    if(kierunek == LEWO)
-    {
-        nowa[0] = orientacja[1] == 1 ? -1 : orientacja[1] == -1 ? 1 : 0;
-        nowa[1] = orientacja[0] == 1 ? 1 : orientacja[0] == -1 ? -1 : 0;
-    }
-    else
-    if(kierunek == PRAWO)
-    {
-        nowa[0] = orientacja[1] == 1 ? 1 : orientacja[1] == -1 ? -1 : 0;
-        nowa[1] = orientacja[0] == 1 ? -1 : orientacja[0] == -1 ? 1 : 0;
-    }
-
-        return nowa;
-}
-
-void zmiana(mrowka* m, int kolor, int kierunek)
-{
-    m->lokacja->kolor = kolor;
-    int* temp = m->orientacja;
-    m->orientacja = obrot(m->orientacja, kierunek);
-    free(temp);
-}
-
 
 void druk(komorka** p, int x, int y, mrowka m, FILE* f)
 {
@@ -127,7 +67,7 @@ void druk(komorka** p, int x, int y, mrowka m, FILE* f)
                         fprintf(f, m.orientacja[0]==1 ? "▼" : m.orientacja[0]==-1 ? "▲": m.orientacja[1]==1 ? "▶" : "◀");
                     }
                     else
-                        fprintf(f, "█");
+                        fprintf(f, "█"); //█
                     break;
 
             }
@@ -136,4 +76,113 @@ void druk(komorka** p, int x, int y, mrowka m, FILE* f)
         fprintf(f, "\n");
     }
 
+}
+
+calosc* zczyatj(FILE* f)
+{
+    int i=0,j=0;
+    setlocale(LC_ALL, "C.UTF-8");
+    wint_t c;
+    int x=0, y=1;
+    while((c=fgetwc(f))!=WEOF && (int)c != '\n')
+            x++;
+    y++;
+    while((c=fgetwc(f))!=WEOF)
+    {
+        if((int)c != '\n')
+            y++;
+    }
+    komorka** grid = malloc(y*sizeof(komorka*));
+    for(int i = 0; i < y; i++)
+        grid[i] = malloc(x*sizeof(komorka));
+    rewind(f);
+    mrowka m;
+while((c=fgetwc(f))!=WEOF)
+{
+
+    wchar_t k = (wchar_t)c;
+    if(wcscmp(L"█",k)==0)
+    {
+        grid[i][j].kolor = CZARNY;
+    }
+    else if(wcscmp(L" ",k)==0)
+    {
+        grid[i][j].kolor = BIALY;
+    }//△▲▷▶▽▼◁◀
+    else if(wcscmp(L"◀",k)==0)
+    {
+        grid[i][j].kolor = CZARNY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 0;
+        m.orientacja[1] = -1;
+    }
+    else if(wcscmp(L"◁",k)==0)
+    {
+        grid[i][j].kolor = BIALY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 0;
+        m.orientacja[1] = -1;
+    }
+    else if(wcscmp(L"▼",k)==0)
+    {
+        grid[i][j].kolor = CZARNY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 1;
+        m.orientacja[1] = 0;
+    }
+    else if(wcscmp(L"▽",k)==0)
+    {
+        grid[i][j].kolor = BIALY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 1;
+        m.orientacja[1] = 0;
+    }
+    else if(wcscmp(L"▶",k)==0)
+    {
+        grid[i][j].kolor = CZARNY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 0;
+        m.orientacja[1] = 1;
+    }
+    else if(wcscmp(L"▷",k)==0)
+    {
+        grid[i][j].kolor = BIALY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = 0;
+        m.orientacja[1] = 1;
+    }
+    else if(wcscmp(L"▲",k)==0)
+    {
+        grid[i][j].kolor = CZARNY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = -1;
+        m.orientacja[1] = 0;
+    }
+    else if(wcscmp(L"△",k)==0)
+    {
+        grid[i][j].kolor = BIALY;
+        m.lokacja = &grid[i][j];
+        m.orientacja = malloc(2*sizeof(int));
+        m.orientacja[0] = -1;
+        m.orientacja[1] = 0;
+    }
+
+    if(j==x)
+    {
+        i++;
+        j=-1;
+    }
+    j++;
+}
+    calosc* a;
+    a->plansza = grid;
+    a->mrowki = m;
+    return a;
 }

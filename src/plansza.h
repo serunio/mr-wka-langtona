@@ -25,13 +25,16 @@ typedef struct
     int* orientacja;
 }mrowka;
 
+typedef struct
+{
+    komorka** plansza;
+    mrowka mrowki;
+}calosc;
+
+
 komorka** tworz(int x, int y, int procent);
 
-void step(komorka**, mrowka*, int, int);
-
-int* obrot(int* orientacja, int kieunek);
-
-void zmiana(mrowka* m, int kolor, int kierunek);
+calosc* zczytaj(FILE*);
 
 void druk(komorka**, int, int, mrowka, FILE*);
 #endif //MROWKA_LANGTONA_PLANSZA_H
