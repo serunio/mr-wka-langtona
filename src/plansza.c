@@ -53,7 +53,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
             zmiana(m, BIALY, LEWO);
             break;
     }
-
+    if(m->orientacja == NULL) return;
     if(m->lokacja->y + m->orientacja[0] == y)
     {
         m->lokacja = &grid[0][m->lokacja->x];
@@ -80,6 +80,7 @@ void step(komorka** grid, mrowka* m, int x, int y)
 int* obrot(int* orientacja, int kierunek)
 {
     int* nowa = (int*)malloc(2*sizeof(int));
+    if(nowa==NULL) return NULL;
     if(kierunek == LEWO)
     {
         nowa[0] = orientacja[1] == 1 ? -1 : orientacja[1] == -1 ? 1 : 0;

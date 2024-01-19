@@ -92,6 +92,7 @@ int main(int argc, char** argv)
         if(fflag)
             fclose(file);
         step(plansza, &m, x, y);
+        if(m.orientacja==NULL) return EXIT_FAILURE;
         k++;
     }
     for(int i = 0; i < y; i++)
