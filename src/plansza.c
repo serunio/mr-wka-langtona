@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <wchar.h>
+#include <locale.h>
 
 #include "plansza.h"
 
@@ -74,4 +76,34 @@ void druk(komorka** p, int x, int y, mrowka m, FILE* f)
         fprintf(f, "\n");
     }
 
+}
+
+calosc* zczyatj(FILE* f)
+{
+    setlocale(LC_ALL, "C.UTF-8");
+    wint_t c;
+    int x=0, y=1;
+    while((c=fgetwc(f))!=WEOF && (int)c != '\n')
+            x++;
+    y++;
+    while((c=fgetwc(f))!=WEOF)
+    {
+        if((int)c != '\n')
+            y++;
+    }
+    komorka** grid = malloc(y*sizeof(komorka*));
+    for(int i = 0; i < y; i++)
+        grid[i] = malloc(x*sizeof(komorka));
+    rewind(f);
+while((c=fgetwc(f))!=WEOF)
+{
+    switch(c)
+    {
+        case ' ':
+            break;
+        case u'█':
+            break;
+
+    }
+}
 }

@@ -7,11 +7,6 @@
 
 #include "plansza.h"
 
-typedef struct
-{
-    komorka* lokacja;
-    int* orientacja;
-}mrowka;
 
 void step(komorka**, mrowka*, int, int);
 

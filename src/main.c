@@ -4,7 +4,6 @@
 #include "plansza.h"
 #include "mrowka.h"
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>

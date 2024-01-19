@@ -12,7 +12,6 @@
 #define LEWO 1
 
 #include <stdio.h>
-#include "mrowka.h"
 
 typedef struct
 {
@@ -20,9 +19,22 @@ typedef struct
     int kolor;
 }komorka;
 
+typedef struct
+{
+    komorka* lokacja;
+    int* orientacja;
+}mrowka;
+
+typedef struct
+{
+    komorka** plansza;
+    mrowka* mrowki;
+}calosc;
+
+
 komorka** tworz(int x, int y, int procent);
 
-komorka** zczytaj(FILE*);
+calosc* zczytaj(FILE*);
 
 void druk(komorka**, int, int, mrowka, FILE*);
 #endif //MROWKA_LANGTONA_PLANSZA_H
