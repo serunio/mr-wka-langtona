@@ -79,9 +79,9 @@ int main(int argc, char** argv)
     if(!kflag) kierunek[0] = -1;
     m.orientacja = kierunek;
     m.lokacja = &plansza[y/2][x/2];
-    calosc a = zczytaj(plik);
-    plansza = calosc.grid;
-    m = calosc.mrowka;
+//    calosc a = zczytaj(plik);
+//    plansza = calosc.grid;
+//    m = calosc.mrowka;
 
     char* filename = malloc(20*sizeof(char));
     int k = 0;
