@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 int main(int argc, char** argv)
 {
@@ -78,7 +80,12 @@ int main(int argc, char** argv)
     {
         if(fflag)
         {
-            sprintf(filename, "../out/%s_%d.txt", name, k);
+
+            struct stat st = {0};
+            if (stat("out", &st) == -1) {
+                mkdir("out");
+            }
+            sprintf(filename, "out/%s_%d.txt", name, k);
             file = fopen(filename, "w");
         }
         else
