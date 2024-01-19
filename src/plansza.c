@@ -67,7 +67,7 @@ void druk(komorka** p, int x, int y, mrowka m, FILE* f)
                         fprintf(f, m.orientacja[0]==1 ? "▼" : m.orientacja[0]==-1 ? "▲": m.orientacja[1]==1 ? "▶" : "◀");
                     }
                     else
-                        fprintf(f, "█");
+                        fprintf(f, "X"); //█
                     break;
 
             }

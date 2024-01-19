@@ -10,6 +10,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 int main(int argc, char** argv)
 {
@@ -80,7 +81,7 @@ int main(int argc, char** argv)
     {
         struct stat st = {0};
         if (stat("out", &st) == -1) {
-            mkdir("out");
+            mkdir("out", 0777);
         }
     }
     else
