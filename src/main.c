@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     int fflag=0;
     int kflag=0;
     int option;
-    while((option = getopt(argc, argv, ":m:n:i:f:k:p:"))!=-1)
+    while((option = getopt(argc, argv, ":m:n:i:f:k:p:z:"))!=-1)
     {
         switch(option)
         {
@@ -59,6 +59,9 @@ int main(int argc, char** argv)
                     printf("Podano zla wartosc dla %c (prawidlowe: 0-100)\n", optopt);
                     return 1;
                 }
+            case 'z':
+                FILE* plik = fopen(optarg, "r");
+                    break;
             case '?':
                 printf("Nieznany argument: -%c\n", optopt);
                 break;
@@ -76,6 +79,9 @@ int main(int argc, char** argv)
     if(!kflag) kierunek[0] = -1;
     m.orientacja = kierunek;
     m.lokacja = &plansza[y/2][x/2];
+    calosc a = zczytaj(plik);
+    plansza = calosc.grid;
+    m = calosc.mrowka;
 
     char* filename = malloc(20*sizeof(char));
     int k = 0;

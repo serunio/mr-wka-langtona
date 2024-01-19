@@ -67,7 +67,7 @@ void druk(komorka** p, int x, int y, mrowka m, FILE* f)
                         fprintf(f, m.orientacja[0]==1 ? "▼" : m.orientacja[0]==-1 ? "▲": m.orientacja[1]==1 ? "▶" : "◀");
                     }
                     else
-                        fprintf(f, "X"); //█
+                        fprintf(f, "█"); //█
                     break;
 
             }
@@ -109,7 +109,7 @@ while((c=fgetwc(f))!=WEOF)
     {
         grid[i][j].kolor = BIALY;
     }//△▲▷▶▽▼◁◀
-    else if(wsccmp(L"◀",k)==0)
+    else if(wcscmp(L"◀",k)==0)
     {
         grid[i][j].kolor = CZARNY;
         m.lokacja = &grid[i][j];
@@ -117,7 +117,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 0;
         m.orientacja[1] = -1;
     }
-    else if(wsccmp(L"◁",k)==0)
+    else if(wcscmp(L"◁",k)==0)
     {
         grid[i][j].kolor = BIALY;
         m.lokacja = &grid[i][j];
@@ -125,7 +125,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 0;
         m.orientacja[1] = -1;
     }
-    else if(wsccmp(L"▼",k)==0)
+    else if(wcscmp(L"▼",k)==0)
     {
         grid[i][j].kolor = CZARNY;
         m.lokacja = &grid[i][j];
@@ -133,7 +133,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 1;
         m.orientacja[1] = 0;
     }
-    else if(wsccmp(L"▽",k)==0)
+    else if(wcscmp(L"▽",k)==0)
     {
         grid[i][j].kolor = BIALY;
         m.lokacja = &grid[i][j];
@@ -141,7 +141,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 1;
         m.orientacja[1] = 0;
     }
-    else if(wsccmp(L"▶",k)==0)
+    else if(wcscmp(L"▶",k)==0)
     {
         grid[i][j].kolor = CZARNY;
         m.lokacja = &grid[i][j];
@@ -149,7 +149,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 0;
         m.orientacja[1] = 1;
     }
-    else if(wsccmp(L"▷",k)==0)
+    else if(wcscmp(L"▷",k)==0)
     {
         grid[i][j].kolor = BIALY;
         m.lokacja = &grid[i][j];
@@ -157,7 +157,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = 0;
         m.orientacja[1] = 1;
     }
-    else if(wsccmp(L"▲",k)==0)
+    else if(wcscmp(L"▲",k)==0)
     {
         grid[i][j].kolor = CZARNY;
         m.lokacja = &grid[i][j];
@@ -165,7 +165,7 @@ while((c=fgetwc(f))!=WEOF)
         m.orientacja[0] = -1;
         m.orientacja[1] = 0;
     }
-    else if(wsccmp(L"△",k)==0)
+    else if(wcscmp(L"△",k)==0)
     {
         grid[i][j].kolor = BIALY;
         m.lokacja = &grid[i][j];
@@ -181,6 +181,8 @@ while((c=fgetwc(f))!=WEOF)
     }
     j++;
 }
-    calosc a = {grid, m};
-    return calosc;
+    calosc* a;
+    a->plansza = grid;
+    a->mrowki = m;
+    return a;
 }

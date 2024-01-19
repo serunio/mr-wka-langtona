@@ -28,7 +28,7 @@ typedef struct
 typedef struct
 {
     komorka** plansza;
-    mrowka* mrowki;
+    mrowka mrowki;
 }calosc;
 
 
