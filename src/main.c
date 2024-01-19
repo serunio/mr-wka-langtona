@@ -2,6 +2,7 @@
 // Created by jakub on 12/24/23.
 //
 #include "plansza.h"
+#include "mrowka.h"
 
 
 #include <stdlib.h>
@@ -76,23 +77,26 @@ int main(int argc, char** argv)
     char* filename = malloc(20*sizeof(char));
     int k = 0;
     FILE* file;
+    if(fflag)
+    {
+        struct stat st = {0};
+        if (stat("out", &st) == -1) {
+            mkdir("out");
+        }
+    }
+    else
+        file = stdout;
     while (k<=t)
     {
         if(fflag)
         {
-
-            struct stat st = {0};
-            if (stat("out", &st) == -1) {
-                mkdir("out");
-            }
             sprintf(filename, "out/%s_%d.txt", name, k);
             file = fopen(filename, "w");
         }
-        else
-            file = stdout;
+
         if(file == NULL)
         {
-            printf("%d\n", errno);
+            printf("Blad pliku wyjsciowego\n");
             return errno;
         }
         druk(plansza, x, y, m, file);
